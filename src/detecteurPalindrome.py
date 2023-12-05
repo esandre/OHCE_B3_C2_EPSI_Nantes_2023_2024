@@ -1,4 +1,7 @@
+import os
+
+
 class DétecteurPalindrome:
     @classmethod
     def détecter(cls, chaîne):
-        return chaîne[::-1]
+        return 'Bonjour' + os.linesep + chaîne[::-1]
