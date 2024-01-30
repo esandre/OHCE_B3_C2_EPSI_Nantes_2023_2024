@@ -4,7 +4,9 @@ import unittest
 from langueAnglaise import LangueAnglaise
 from langueFrançaise import LangueFrançaise
 from utilities.detecteurPalindromeBuilder import DétecteurPalindromeBuilder
+from utilities.langueFake import LangueFake
 from utilities.langueSpy import LangueSpy
+from utilities.langueStub import LangueStub
 
 cas_test_non_palindrome = ['test', 'epsi']
 
@@ -23,25 +25,20 @@ class PalindromeTest(unittest.TestCase):
                 self.assertIn(attendu, résultat)
 
     def test_félicitations(self):
-        cas = [[LangueFrançaise(), 'Bien dit !'], [LangueAnglaise(), 'Well said !']]
+        # ETANT DONNE un palindrome
+        # ET que l'utilisateur parle une langue
+        langue = LangueFake()
+        palindrome = 'radar'
 
-        for paramètres in cas:
-            with (self.subTest(paramètres[0])):
-                # ETANT DONNE un palindrome
-                # ET que l'utilisateur parle <langue>
-                langue = paramètres[0]
-                palindrome = 'radar'
+        # QUAND on le fournit au détecteur
+        résultat = (DétecteurPalindromeBuilder()
+                    .ayantPourLangue(langue)
+                    .build()
+                    .détecter(palindrome))
 
-                # QUAND on le fournit au détecteur
-                résultat = (DétecteurPalindromeBuilder()
-                            .ayantPourLangue(langue)
-                            .build()
-                            .détecter(palindrome))
-
-                # ALORS on obtient cette chaîne suivie des félicitations en <langue>
-                félicitations = paramètres[1]
-                attendu = palindrome + os.linesep + félicitations
-                self.assertIn(attendu, résultat)
+        # ALORS on obtient cette chaîne suivie des félicitations en <langue>
+        attendu = palindrome + os.linesep + langue.féliciter()
+        self.assertIn(attendu, résultat)
 
     def test_absence_bien_dit(self):
         # ETANT DONNE un non-palindrome
@@ -57,7 +54,10 @@ class PalindromeTest(unittest.TestCase):
                 self.assertFalse(langue.félicitationsConsultées())
 
     def test_saluer(self):
-        cas = [[LangueFrançaise(), 'Bonjour'], [LangueAnglaise(), 'Hello']]
+        cas = [
+            [LangueFrançaise(), 'Bonjour'],
+            [LangueAnglaise(), 'Hello']
+        ]
 
         for paramètres in cas:
             langue = paramètres[0]
