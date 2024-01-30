@@ -8,7 +8,7 @@ class DétecteurPalindrome:
     def détecter(self, chaîne):
         miroir = chaîne[::-1]
 
-        début = ('Bonjour'
+        début = (self.__langue.saluer()
                  + os.linesep
                  + miroir
                  + os.linesep)

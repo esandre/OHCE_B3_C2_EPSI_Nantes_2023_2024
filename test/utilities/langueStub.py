@@ -1,2 +1,3 @@
 class LangueStub:
-    pass
+    def saluer(self):
+        return ""

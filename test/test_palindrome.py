@@ -47,9 +47,11 @@ class PalindromeTest(unittest.TestCase):
         # ETANT DONNE un non-palindrome
         for chaîne in cas_test_non_palindrome:
             with self.subTest(chaîne):
-                # QUAND on le fournit au détecteur
                 langue = LangueSpy()
-                résultat = DétecteurPalindromeBuilder().ayantPourLangue(langue).build().détecter(chaîne)
+                détecteur = DétecteurPalindromeBuilder().ayantPourLangue(langue).build()
+
+                # QUAND on le fournit au détecteur
+                détecteur.détecter(chaîne)
 
                 # ALORS aucune salutation n'apparaît
                 self.assertFalse(langue.félicitationsConsultées())
@@ -57,13 +59,30 @@ class PalindromeTest(unittest.TestCase):
     def test_bonjour(self):
         # ETANT DONNE une chaîne
         chaîne = 'test'
+        langue = LangueFrançaise()
+        détecteur = DétecteurPalindromeBuilder().ayantPourLangue(langue).build()
 
         # QUAND je demande si elle est un palindrome
-        résultat = DétecteurPalindromeBuilder().build().détecter(chaîne)
+
+        résultat = détecteur.détecter(chaîne)
 
         # ALORS la première ligne est "Bonjour"
         premiere_ligne = résultat.split(os.linesep)[0]
         self.assertEqual('Bonjour', premiere_ligne)
+
+    def test_hello(self):
+        # ETANT DONNE une chaîne
+        # ET que l'utilisateur parle anglais
+        chaîne = 'test'
+        langue = LangueAnglaise()
+        détecteur = DétecteurPalindromeBuilder().ayantPourLangue(langue).build()
+
+        # QUAND je demande si elle est un palindrome
+        résultat = détecteur.détecter(chaîne)
+
+        # ALORS la première ligne est "Bonjour"
+        premiere_ligne = résultat.split(os.linesep)[0]
+        self.assertEqual('Hello', premiere_ligne)
 
     def test_au_revoir(self):
         # ETANT DONNE une chaîne
