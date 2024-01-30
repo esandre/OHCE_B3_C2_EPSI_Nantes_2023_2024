@@ -27,6 +27,16 @@ class MyTestCase(unittest.TestCase):
         attendu = palindrome + os.linesep + 'Bien dit !'
         self.assertIn(attendu, résultat)
 
+    def test_absence_bien_dit(self):
+        # ETANT DONNE un non-palindrome
+        for chaîne in ['test', 'epsi']:
+            with self.subTest(chaîne):
+                # QUAND on le fournit au détecteur
+                résultat = DétecteurPalindrome.détecter(chaîne)
+
+                # ALORS "Bien dit !" n'apparaît pas
+                self.assertNotIn('Bien dit !', résultat)
+
     def test_bonjour(self):
         # ETANT DONNE une chaîne
         chaîne = 'test'
