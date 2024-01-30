@@ -56,33 +56,25 @@ class PalindromeTest(unittest.TestCase):
                 # ALORS aucune salutation n'apparaît
                 self.assertFalse(langue.félicitationsConsultées())
 
-    def test_bonjour(self):
-        # ETANT DONNE une chaîne
-        chaîne = 'test'
-        langue = LangueFrançaise()
-        détecteur = DétecteurPalindromeBuilder().ayantPourLangue(langue).build()
+    def test_saluer(self):
+        cas = [[LangueFrançaise(), 'Bonjour'], [LangueAnglaise(), 'Hello']]
 
-        # QUAND je demande si elle est un palindrome
+        for paramètres in cas:
+            langue = paramètres[0]
+            salutations_attendues = paramètres[1]
+            with self.subTest(str(langue) + ':' + salutations_attendues):
+                # ETANT DONNE une chaîne
+                chaîne = 'test'
 
-        résultat = détecteur.détecter(chaîne)
+                # ET que l'utilisateur parle <langue>
+                détecteur = DétecteurPalindromeBuilder().ayantPourLangue(langue).build()
 
-        # ALORS la première ligne est "Bonjour"
-        premiere_ligne = résultat.split(os.linesep)[0]
-        self.assertEqual('Bonjour', premiere_ligne)
+                # QUAND je demande si elle est un palindrome
+                résultat = détecteur.détecter(chaîne)
 
-    def test_hello(self):
-        # ETANT DONNE une chaîne
-        # ET que l'utilisateur parle anglais
-        chaîne = 'test'
-        langue = LangueAnglaise()
-        détecteur = DétecteurPalindromeBuilder().ayantPourLangue(langue).build()
-
-        # QUAND je demande si elle est un palindrome
-        résultat = détecteur.détecter(chaîne)
-
-        # ALORS la première ligne est "Bonjour"
-        premiere_ligne = résultat.split(os.linesep)[0]
-        self.assertEqual('Hello', premiere_ligne)
+                # ALORS la première ligne est la salutation de cette langue
+                premiere_ligne = résultat.split(os.linesep)[0]
+                self.assertEqual(salutations_attendues, premiere_ligne)
 
     def test_au_revoir(self):
         # ETANT DONNE une chaîne
