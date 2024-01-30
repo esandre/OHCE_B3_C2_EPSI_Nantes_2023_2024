@@ -8,7 +8,10 @@ class DétecteurPalindrome:
         est_palindrome = miroir == chaîne
 
         début = "Bonjour" + os.linesep
+        fin = os.linesep + "Au revoir"
 
-        return début + miroir + os.linesep + "Bien dit !" \
+        milieu = miroir + os.linesep + "Bien dit !" \
             if est_palindrome \
-            else début + miroir
+            else miroir
+
+        return début + milieu + fin
