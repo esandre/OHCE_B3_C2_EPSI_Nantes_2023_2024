@@ -16,6 +16,17 @@ class MyTestCase(unittest.TestCase):
                 attendu = chaîne[::-1]
                 self.assertIn(attendu, résultat)
 
+    def test_bien_dit(self):
+        # ETANT DONNE un palindrome
+        palindrome = 'radar'
+
+        # QUAND on le fournit au détecteur
+        résultat = DétecteurPalindrome.détecter(palindrome)
+
+        # ALORS on obtient cette chaîne suivie de "Bien dit !"
+        attendu = palindrome + os.linesep + 'Bien dit !'
+        self.assertIn(attendu, résultat)
+
     def test_bonjour(self):
         # ETANT DONNE une chaîne
         chaîne = 'test'
