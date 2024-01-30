@@ -50,6 +50,18 @@ class PalindromeTest(unittest.TestCase):
         premiere_ligne = résultat.split(os.linesep)[0]
         self.assertEqual('Bonjour', premiere_ligne)
 
+    def test_au_revoir(self):
+        # ETANT DONNE une chaîne
+        chaîne = 'test'
+
+        # QUAND je demande si elle est un palindrome
+        résultat = DétecteurPalindrome.détecter(chaîne)
+
+        # ALORS la dernière ligne est "Au revoir"
+        lignes = résultat.split(os.linesep)
+        dernière_ligne = lignes[-1]
+        self.assertEqual('Au revoir', dernière_ligne)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -11,4 +11,4 @@ class DétecteurPalindrome:
                  + miroir
                  + os.linesep)
 
-        return début + "Bien dit !" if chaîne == miroir else début
+        return (début + "Bien dit !" if chaîne == miroir else début) + "Au revoir"
