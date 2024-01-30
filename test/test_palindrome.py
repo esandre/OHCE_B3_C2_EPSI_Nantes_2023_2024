@@ -6,7 +6,7 @@ from detecteurPalindrome import DétecteurPalindrome
 cas_test_non_palindrome = ['test', 'epsi']
 
 
-class MyTestCase(unittest.TestCase):
+class PalindromeTest(unittest.TestCase):
     def test_miroir(self):
         # ETANT DONNE une chaîne
         for chaîne in cas_test_non_palindrome:
