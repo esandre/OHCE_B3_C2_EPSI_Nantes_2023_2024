@@ -1,10 +1,9 @@
 import os
 import unittest
 
-from detecteurPalindrome import DétecteurPalindrome
 from langueAnglaise import LangueAnglaise
 from langueFrançaise import LangueFrançaise
-from utilities.langueStub import LangueStub
+from utilities.détecteurPalindromeBuilder import DétecteurPalindromeBuilder
 
 cas_test_non_palindrome = ['test', 'epsi']
 
@@ -15,7 +14,7 @@ class PalindromeTest(unittest.TestCase):
         for chaîne in cas_test_non_palindrome:
             with self.subTest(chaîne):
                 # QUAND je demande si elle est un palindrome
-                résultat = DétecteurPalindrome(LangueStub()).détecter(chaîne)
+                résultat = DétecteurPalindromeBuilder.buildDefault().détecter(chaîne)
 
                 # ALORS j'obtiens cette chaîne en miroir
                 attendu = chaîne[::-1]
@@ -26,7 +25,7 @@ class PalindromeTest(unittest.TestCase):
         palindrome = 'radar'
 
         # QUAND on le fournit au détecteur
-        résultat = DétecteurPalindrome(LangueStub()).détecter(palindrome)
+        résultat = DétecteurPalindromeBuilder.buildDefault().détecter(palindrome)
 
         # ALORS on obtient cette chaîne suivie de "Bien dit !"
         attendu = palindrome + os.linesep + 'Bien dit !'
@@ -37,7 +36,7 @@ class PalindromeTest(unittest.TestCase):
         for chaîne in cas_test_non_palindrome:
             with self.subTest(chaîne):
                 # QUAND on le fournit au détecteur
-                résultat = DétecteurPalindrome(LangueStub()).détecter(chaîne)
+                résultat = DétecteurPalindromeBuilder.buildDefault().détecter(chaîne)
 
                 # ALORS "Bien dit !" n'apparaît pas
                 self.assertNotIn('Bien dit !', résultat)
@@ -57,7 +56,7 @@ class PalindromeTest(unittest.TestCase):
 
                 # ET que l'utilisateur parle <langue>
                 # QUAND je demande si elle est un palindrome
-                résultat = DétecteurPalindrome(langue).détecter(chaîne)
+                résultat = DétecteurPalindromeBuilder().ayantPourLangue(langue).build().détecter(chaîne)
 
                 # ALORS la première ligne est la salutation de cette langue
                 premiere_ligne = résultat.split(os.linesep)[0]
@@ -68,7 +67,7 @@ class PalindromeTest(unittest.TestCase):
         chaîne = 'test'
 
         # QUAND je demande si elle est un palindrome
-        résultat = DétecteurPalindrome(LangueStub()).détecter(chaîne)
+        résultat = DétecteurPalindromeBuilder.buildDefault().détecter(chaîne)
 
         # ALORS la dernière ligne est "Au revoir"
         lignes = résultat.split(os.linesep)
