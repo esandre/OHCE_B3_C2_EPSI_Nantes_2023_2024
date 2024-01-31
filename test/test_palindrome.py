@@ -42,33 +42,26 @@ class PalindromeTest(unittest.TestCase):
                 # ALORS "Bien dit !" n'apparaît pas
                 self.assertNotIn('Bien dit !', résultat)
 
-    def test_bonjour(self):
-        # ETANT DONNE une chaîne
-        chaîne = 'test'
+    def test_saluer(self):
+        cas = [
+            [LangueFrançaise(), 'Bonjour'],
+            [LangueAnglaise(), 'Hello']
+        ]
 
-        # ET que l'utilisateur parle français
-        langue = LangueFrançaise()
+        for paramètres in cas:
+            langue = paramètres[0]
+            salutations_attendues = paramètres[1]
+            with self.subTest(str(langue) + ':' + salutations_attendues):
+                # ETANT DONNE une chaîne
+                chaîne = 'test'
 
-        # QUAND je demande si elle est un palindrome
-        résultat = DétecteurPalindrome(langue).détecter(chaîne)
+                # ET que l'utilisateur parle <langue>
+                # QUAND je demande si elle est un palindrome
+                résultat = DétecteurPalindrome(langue).détecter(chaîne)
 
-        # ALORS la première ligne est "Bonjour"
-        premiere_ligne = résultat.split(os.linesep)[0]
-        self.assertEqual('Bonjour', premiere_ligne)
-
-    def test_hello(self):
-        # ETANT DONNE une chaîne
-        chaîne = 'test'
-
-        # ET que l'utilisateur parle anglais
-        langue = LangueAnglaise()
-
-        # QUAND je demande si elle est un palindrome
-        résultat = DétecteurPalindrome(langue).détecter(chaîne)
-
-        # ALORS la première ligne est "Hello"
-        premiere_ligne = résultat.split(os.linesep)[0]
-        self.assertEqual('Hello', premiere_ligne)
+                # ALORS la première ligne est la salutation de cette langue
+                premiere_ligne = résultat.split(os.linesep)[0]
+                self.assertEqual(salutations_attendues, premiere_ligne)
 
     def test_au_revoir(self):
         # ETANT DONNE une chaîne
