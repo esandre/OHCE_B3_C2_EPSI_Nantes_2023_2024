@@ -3,6 +3,7 @@ import unittest
 
 from langueAnglaise import LangueAnglaise
 from langueFrançaise import LangueFrançaise
+from momentDeLaJournée import MomentDeLaJournée
 from utilities.détecteurPalindromeBuilder import DétecteurPalindromeBuilder
 
 cas_test_non_palindrome = ['test', 'epsi']
@@ -43,22 +44,37 @@ class PalindromeTest(unittest.TestCase):
 
     def test_saluer(self):
         cas = [
-            [LangueFrançaise(), 'Bonjour'],
-            [LangueAnglaise(), 'Hello']
+            [LangueFrançaise(), 'Bonjour', MomentDeLaJournée.INCONNU],
+            [LangueFrançaise(), 'Bonjour', MomentDeLaJournée.MATIN],
+            [LangueFrançaise(), 'Bonjour', MomentDeLaJournée.APRES_MIDI],
+            [LangueFrançaise(), 'Bonsoir', MomentDeLaJournée.SOIR],
+            [LangueFrançaise(), 'Bonsoir', MomentDeLaJournée.NUIT],
+            [LangueAnglaise(), 'Hello', MomentDeLaJournée.INCONNU],
+            [LangueAnglaise(), 'Good Morning', MomentDeLaJournée.MATIN],
+            [LangueAnglaise(), 'Good Afternoon', MomentDeLaJournée.APRES_MIDI],
+            [LangueAnglaise(), 'Good Evening', MomentDeLaJournée.SOIR],
+            [LangueAnglaise(), 'Good Night', MomentDeLaJournée.NUIT],
         ]
 
         for paramètres in cas:
             langue = paramètres[0]
             salutations_attendues = paramètres[1]
+            moment = paramètres[2]
             with self.subTest(str(langue) + ':' + salutations_attendues):
                 # ETANT DONNE une chaîne
                 chaîne = 'test'
 
                 # ET que l'utilisateur parle <langue>
-                # QUAND je demande si elle est un palindrome
-                résultat = DétecteurPalindromeBuilder().ayantPourLangue(langue).build().détecter(chaîne)
+                # ET que nous sommes à un moment de la journée inconnu
+                détecteur = (DétecteurPalindromeBuilder()
+                             .ayantPourLangue(langue)
+                             .ayantPourMomentDeLaJournée(moment)
+                             .build())
 
-                # ALORS la première ligne est la salutation de cette langue
+                # QUAND je demande si elle est un palindrome
+                résultat = détecteur.détecter(chaîne)
+
+                # ALORS la première ligne est la salutation de cette langue à ce moment de la journée
                 premiere_ligne = résultat.split(os.linesep)[0]
                 self.assertEqual(salutations_attendues, premiere_ligne)
 

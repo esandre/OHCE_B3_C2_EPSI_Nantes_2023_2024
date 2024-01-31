@@ -1,4 +1,4 @@
 class LangueStub:
-    def saluer(self):
+    def saluer(self, moment):
         return ""
 
