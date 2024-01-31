@@ -2,6 +2,9 @@ import os
 import unittest
 
 from detecteurPalindrome import DétecteurPalindrome
+from langueAnglaise import LangueAnglaise
+from langueFrançaise import LangueFrançaise
+from utilities.langueStub import LangueStub
 
 cas_test_non_palindrome = ['test', 'epsi']
 
@@ -12,7 +15,7 @@ class PalindromeTest(unittest.TestCase):
         for chaîne in cas_test_non_palindrome:
             with self.subTest(chaîne):
                 # QUAND je demande si elle est un palindrome
-                résultat = DétecteurPalindrome.détecter(chaîne)
+                résultat = DétecteurPalindrome(LangueStub()).détecter(chaîne)
 
                 # ALORS j'obtiens cette chaîne en miroir
                 attendu = chaîne[::-1]
@@ -23,7 +26,7 @@ class PalindromeTest(unittest.TestCase):
         palindrome = 'radar'
 
         # QUAND on le fournit au détecteur
-        résultat = DétecteurPalindrome.détecter(palindrome)
+        résultat = DétecteurPalindrome(LangueStub()).détecter(palindrome)
 
         # ALORS on obtient cette chaîne suivie de "Bien dit !"
         attendu = palindrome + os.linesep + 'Bien dit !'
@@ -34,7 +37,7 @@ class PalindromeTest(unittest.TestCase):
         for chaîne in cas_test_non_palindrome:
             with self.subTest(chaîne):
                 # QUAND on le fournit au détecteur
-                résultat = DétecteurPalindrome.détecter(chaîne)
+                résultat = DétecteurPalindrome(LangueStub()).détecter(chaîne)
 
                 # ALORS "Bien dit !" n'apparaît pas
                 self.assertNotIn('Bien dit !', résultat)
@@ -43,19 +46,36 @@ class PalindromeTest(unittest.TestCase):
         # ETANT DONNE une chaîne
         chaîne = 'test'
 
+        # ET que l'utilisateur parle français
+        langue = LangueFrançaise()
+
         # QUAND je demande si elle est un palindrome
-        résultat = DétecteurPalindrome.détecter(chaîne)
+        résultat = DétecteurPalindrome(langue).détecter(chaîne)
 
         # ALORS la première ligne est "Bonjour"
         premiere_ligne = résultat.split(os.linesep)[0]
         self.assertEqual('Bonjour', premiere_ligne)
+
+    def test_hello(self):
+        # ETANT DONNE une chaîne
+        chaîne = 'test'
+
+        # ET que l'utilisateur parle anglais
+        langue = LangueAnglaise()
+
+        # QUAND je demande si elle est un palindrome
+        résultat = DétecteurPalindrome(langue).détecter(chaîne)
+
+        # ALORS la première ligne est "Hello"
+        premiere_ligne = résultat.split(os.linesep)[0]
+        self.assertEqual('Hello', premiere_ligne)
 
     def test_au_revoir(self):
         # ETANT DONNE une chaîne
         chaîne = 'test'
 
         # QUAND je demande si elle est un palindrome
-        résultat = DétecteurPalindrome.détecter(chaîne)
+        résultat = DétecteurPalindrome(LangueStub()).détecter(chaîne)
 
         # ALORS la dernière ligne est "Au revoir"
         lignes = résultat.split(os.linesep)

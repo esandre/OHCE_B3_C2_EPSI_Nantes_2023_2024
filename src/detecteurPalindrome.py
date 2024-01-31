@@ -2,11 +2,14 @@ import os
 
 
 class DétecteurPalindrome:
-    @classmethod
-    def détecter(cls, chaîne):
+    def __init__(self, langue):
+        self.__langue = langue
+        pass
+
+    def détecter(self, chaîne):
         miroir = chaîne[::-1]
 
-        début = ('Bonjour'
+        début = (self.__langue.saluer()
                  + os.linesep
                  + miroir
                  + os.linesep)
